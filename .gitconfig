@@ -13,4 +13,11 @@
   origin =  config --get remote.origin.url
   url    =  config --get remote.origin.url
   
-  ## 
+  ## shows commit history of the code 
+  history=  log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  ## shows commit history and changes of the code (long-history)
+  lhistory= log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative -p
+  
+  ## shows stashes 
+  stash-list = stash list --pretty=format:'%Cblue%gd%Cred: %C(yellow)%s'
+  
