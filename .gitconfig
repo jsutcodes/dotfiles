@@ -1,19 +1,27 @@
 [alias]
-  #co = checkout
-  #ci = commit
-  #st = status
-  #br = branch
-  #hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-  #type = cat-file -t
-  #dump = cat-file -p
+  ## list all git aliases
+  aliases = "!git config -l | grep alias | cut -c 7-"
   
-  
+  ##
+  unstage = reset HEAD -- 
+  last    = log -1 HEAD 
   
   ## list the url the repo points to:
   origin =  config --get remote.origin.url
   url    =  config --get remote.origin.url
   
+  ## ignore certain files which are under subversion control but you need to modify them but not commit
+  assume = update-index --assume-unchanged
+  unassume = update-index --no-assume-unchanged
+  # list assumed files 
+  assumed = "!git ls-files -v | grep ^h | cut -c 3-"
+  unassumeall = "!git assumed | xargs git update-index --no-assume-unchanged"
+  assumeall = "!git st -s | awk {'print $2'} | xargs git assume"
+  
   ## shows commit history of the code 
+  ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+  
   history=  log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
   ## shows commit history and changes of the code (long-history)
   lhistory= log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative -p
@@ -21,3 +29,5 @@
   ## shows stashes 
   stash-list = stash list --pretty=format:'%Cblue%gd%Cred: %C(yellow)%s'
   
+  ## find a file path in the codebase
+  search = "!git ls-files | grep -i"
