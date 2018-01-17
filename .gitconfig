@@ -1,0 +1,16 @@
+[alias]
+  #co = checkout
+  #ci = commit
+  #st = status
+  #br = branch
+  #hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+  #type = cat-file -t
+  #dump = cat-file -p
+  
+  
+  
+  ## list the url the repo points to:
+  origin =  config --get remote.origin.url
+  url    =  config --get remote.origin.url
+  
+  ## 
