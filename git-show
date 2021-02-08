@@ -1,0 +1,14 @@
+#!/bin/bash
+# set -x
+
+SUBCMD=$(grep "$1\s*\=" ~/.gitconfig | cut -d '=' -f 2-) # grab everything after the = of the alias 
+#(i.e. 'ls = list --apply' grabs the 'list --apply')
+SUBCMD_DISPLAY=$(sed 's/\\//g' <<< ${SUBCMD}) # remove escape characters
+
+# write out alias call if it is an alias
+if [ ! -z "$SUBCMD" ]; then
+	echo "git $SUBCMD"
+fi
+
+#run git command
+bash -c "git $SUBCMD_DISPLAY"
