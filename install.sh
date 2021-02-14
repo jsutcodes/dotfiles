@@ -6,6 +6,7 @@ DIR=$PWD
 # create symlinks
 ln -sf $DIR/.vimrc ~/.vimrc
 ln -sf $DIR/.gitconfig ~/.gitconfig
+ln -sf $DIR/.gitignore_global ~/.gitignore_global
 #ln -sf $DIR/mc-solarized.ini ~/mc-solarized.ini
 # ln -n (--no-dereference) prevents recursive symlinking of directory symlinks
 #ln -nsf $DIR/.bash ~/.bash

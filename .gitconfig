@@ -36,5 +36,29 @@
   ## find a file path in the codebase
   search = "!git ls-files | grep -i"
   
+# new aliases ==============================================================
+
+  # Show verbose output about tags, branches or remotes
+  tags = tag -l
+  branches = branch --all
+  remotes = remote --verbose
+
+  # Find branches containing commit
+  fb = "!f() { git branch -a --contains $1; }; f"
+
+  # Find tags containing commit
+  ft = "!f() { git describe --always --contains $1; }; f"
+
+  # Show the user email for the current repository.
+  whoami = config user.email
+
   # showalias = "!git-show $*" 
   #showalias  ="!f(){ echo\"$*\"&&$*};f"
+  # pull submodules by default
+[submodule]
+	recurse = true
+
+[core]
+  # Use custom `.gitignore` and `.gitattributes`.
+  excludesfile = ~/.gitignore_global
+  attributesfile = ~/.gitattributes
