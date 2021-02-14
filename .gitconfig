@@ -1,42 +1,118 @@
 [user]
 	email = jorsutton92@gmail.com
 	name = Jordan Sutton
+	username = jsutcodes
+[diff]
+	tool = vimdiff
+
+[color]
+	ui = auto
+  
+[color "branch"]
+	current = yellow bold
+	local = green bold
+	remote = cyan bold
+  
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[core]
+  # Use custom `.gitignore` and `.gitattributes`.
+  excludesfile = ~/.gitignore_global
+  #attributesfile = ~/.gitattributes
+  
+[submodule]
+  # pull submodules by default
+  recurse = true
 
 [alias]
-  ## list all git aliases
-  aliases = "!git config -l | grep alias | cut -c 7-"
+  #NOTE: alias that have multiple spaces between the aliase and '=' will show when running alias
+  #So anything like this comment will not show when running 'git alias'
+  # must be formated like alias command in order for the alias cmd to be pick up alias
+
+  #  === Assorted ===
+  alias                    = "!grep -E '(  =|^$)' ~/.gitconfig | sed -E -e 's/=.+#//' | less"  # List formatted aliases and descriptions
+  alias-show-commands      = "!git config -l" | grep alias | cut -c 7-                         # List aliases with expanded commands
+  ignore                   = !git rm -r --cached . && git add .                                # Fix untracked files, commit all changes first
   
-  ##
-  unstage = reset HEAD -- 
-  last    = log -1 HEAD 
+  #hide= update-index --skip-worktree                                      # Keep a certain file from appearing in diffs
+  #unhide= update-index --no-skip-worktree                                   # Allow a hidden file to again appear in diffs 
+  assume          = update-index --assume-unchanged  # ignore certain files which are under git but want to modify but not commit
+  unassume        = update-index --no-assume-unchanged # allow git to see changes to file again
+  assumed-list    = "!git ls-files -v | grep ^h | cut -c 3-" # list assumed files 
+  unassumeall     = "!git assumed | xargs git update-index --no-assume-unchanged" # unassume all assumed files
+  assumeall       = "!git status -s | awk {'print $2'} | xargs git assume" # assume all files shown in git status
+ 
+  #  === File Management ===
+  unstage  = reset HEAD --         # More logical name for reset HEAD
+  discard  = checkout --           # Reverts a path to the last committed state
+
+  #  === Commit Commands ===
+  amend               = commit --amend        # Add staged files to the previous commit.  Changes the SHA-1 of the previous commit
+  amend-no-comment    = commit --amend --no-edit   # Amend the previous commit with all current changes keeping the previous commit message
+  commit-wip          = commit -m 'WIP - incremental commit' # Quick command for saving work progress which will be modified later
+
+  #  === Working with Previous Commit Commands ===
+  diffwip  = diff --cached             # show changes between last commit and WIP (and files in index)
+  r1       = reset HEAD^               # Move HEAD pointer back one commit and keep all changes in the working directory
+  r2       = reset HEAD^^              # Move HEAD pointer back two commits and keep all changes in the working directory
+  f1       = reset HEAD@{1}            # Move HEAD pointer forward one commit 
+  d1       = difftool HEAD^ HEAD       # Diff a file with itself from the previous commit
+  d2       = difftool HEAD^^ HEAD      # Diff a file with itself from two commits ago
+  #dh= remote set-head origin -d       
+  dname    = diff --name-only          # Show the names of all files changed between two commits.  Usage:  "git dname SHA1 SHA2"
   
-  ## list the url the repo points to:
-  origin =  config --get remote.origin.url
-  url    =  config --get remote.origin.url
+  search-files-for-filename = "!git ls-files | grep -i"
   
-  ## ignore certain files which are under subversion control but you need to modify them but not commit
-  assume = update-index --assume-unchanged
-  unassume = update-index --no-assume-unchanged
-  # list assumed files 
-  assumed = "!git ls-files -v | grep ^h | cut -c 3-"
-  unassumeall = "!git assumed | xargs git update-index --no-assume-unchanged"
-  assumeall = "!git status -s | awk {'print $2'} | xargs git assume"
+  ## find a string in the entire codebase (looks inside the files not at the names)
+  search-files-containing = "grep -Ii"
+  #=== Branch management ===
+  #dbr= push origin --delete                             # Delete branch remote 
+  #parseBranchName= !git branch | grep '*' | sed 's/* //'            # Get the current branch name 
+  #publish= !git parseBranchName | xargs git po -u           # Create a copy of the current branch on origin 
+  #del= branch -D                                        # Delete local branch
+  branch-dates            = !git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))' # list branches with commit and date
+
+  #  === Logging ===
+  last    = log -1 --decorate                                         # Show the last commit on the current branch
+  # Possible colors:  normal, black, red, green, yellow, blue, magenta, cyan, white
+  # Possible modifiers:  bold (neon), dim, ul, blink, reverse
+  # Common placeholders:  %C()-change color, %h-short commit hash, %d-ref names, %cn-committer name, %ar-relative date
+  lsb                 = log --pretty=format:"%C(auto)%h%d\\ %s\\ %C(blue)\\ [%cn]" --decorate   # List commits on this branch, formatted
+  ls-dates            = log --pretty=format:"%C(auto)%h%d\\ %s\\ %C(blue)[%aN]\\ %C(magenta)[%ad]" --all -20 # List commits including date
+  ls-all              = !git lsb --all                                       # List all commits
+  ls                  = !git ls-all -20                                              # List last 20 commits
+  lla                 = !git ls-all --numstat                                         # List all commits and their changed files                                       
+  ll                  = !git lla -10                                             # List last 10 commits and their changed files
+  lm                  = log --pretty=%B -1                                  # Print out the entirety of the previous log message, pipe to pbcopy for copying to clipboard.
+  ls-dates-since      = "!f() { git ls-dates  --after=$1; }; f" # logs dates since YYYY-MM-DD
+  ll-dates-since      = "!f() { git ls-dates  --after=$1 --numstat; }; f" # logs dates since YYYY-MM-DD and their changed files
+
+  #  === URL generation ===
+  origin          =  config --get remote.origin.url    # list the remote origin url for the repo
+  #url=  config --get remote.origin.url    # list the url the repo points to:
+  rrl             = !sh -c 'echo $(git config remote.${1:-origin}.url | sed -E s/[a-z]+@\\(.+?\\):\\(.+\\)\\.git$/\\\\\\1\\\\\\/\\\\\\2/)' - # Get the URL of a repository (origin by default)
+  crl             = !sh -c 'echo $(git rrl)"/commit/"$(echo $(git rev-parse $([ "$0" = "sh" ] && echo HEAD || echo $0)))' # Get the GitHub URL of the revision (HEAD by default)
+  brl             = !sh -c 'BRANCH=${1:-$(git symbolic-ref --short HEAD)} && echo $(git rrl $(git config branch.$BRANCH.remote))"/tree/"$(git config branch.$BRANCH.merge | sed -E s/refs.heads.//)' - # Get the GitHub URL of a branch (HEAD by default)
+
+  #  == Web launching ===
+  hub            = !sh -c 'git web--browse $(git rrl ${1})' -        # Launches a web browser for a remote repository (origin by default)
+  hub-commit     = !sh -c 'git web--browse $(git crl ${1})' -        # Launches a web browser for a specific commit (HEAD by default)
+  hub-branch     = !sh -c 'git web--browse $(git brl ${1})' -        # Launches a web browser for a specific branch (HEAD by default)
+
+  # == Proxy ===
+  #setproxy = !git config --global http.proxy http://10.10.5.18:8080 && git config --global https.proxy https://10.10.5.18:8080 && npm config set proxy http://10.10.5.18:8080 && npm config set https-proxy http://10.10.5.18:8080
+  #rmvproxy = !git config --global --unset http.proxy && git config --global --unset https.proxy && npm config rm proxy && npm config rm https-proxy
+
+  history        =  log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative    # shows commit history and changes of the code (long-history)
   
-  ## shows commit history of the code 
-  ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
-  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
-  
-  history=  log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-  ## shows commit history and changes of the code (long-history)
-  lhistory= log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative -p
-  
-  ## shows stashes 
-  stash-list = stash list --pretty=format:'%Cblue%gd%Cred: %C(yellow)%s'
-  
-  ## find a file path in the codebase
-  search = "!git ls-files | grep -i"
-  
-# new aliases ==============================================================
+  lhistory       =  log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative -p # shows commit history and changes of the code (long-history)
+
+  # == stash ===
+  stash-list     = stash list --pretty=format:'%Cblue%gd%Cred: %C(yellow)%s'     # shows stashes
 
   # Show verbose output about tags, branches or remotes
   tags = tag -l
@@ -51,14 +127,3 @@
 
   # Show the user email for the current repository.
   whoami = config user.email
-
-  # showalias = "!git-show $*" 
-  #showalias  ="!f(){ echo\"$*\"&&$*};f"
-  # pull submodules by default
-[submodule]
-	recurse = true
-
-[core]
-  # Use custom `.gitignore` and `.gitattributes`.
-  excludesfile = ~/.gitignore_global
-  attributesfile = ~/.gitattributes
