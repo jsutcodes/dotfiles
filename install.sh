@@ -5,17 +5,24 @@ DIR=$PWD
 
 # create symlinks
 ln -sf $DIR/.vimrc ~/.vimrc
-ln -sf $DIR/dircolors-solarized ~/dircolors-solarized
-ln -sf $DIR/mc-solarized.ini ~/mc-solarized.ini
+#ln -sf $DIR/mc-solarized.ini ~/mc-solarized.ini
 # ln -n (--no-dereference) prevents recursive symlinking of directory symlinks
-ln -nsf $DIR/.bash ~/.bash
+#ln -nsf $DIR/.bash ~/.bash
 
-# source bootstrap file to .bashrc if it's not already included
-BSINCLUDE='. ~/.bash/bootstrap.sh'
-if grep -Fq "$BSINCLUDE" ~/.bashrc;
+# source .bashrc file to existing .bashrc if it's not already included
+BSA_INCLUDE=". $DIR/.bash_aliases"
+BSF_INCLUDE=". $DIR/.bash_functions"
+
+if grep -Fq "$BSA_INCLUDE" ~/.bashrc;
     then :;
 else
-    echo -e "\n\n$BSINCLUDE" >> ~/.bashrc
+    echo -e "\n\n$BSA_INCLUDE" >> ~/.bashrc
+fi
+
+if grep -Fq "$BSF_INCLUDE" ~/.bashrc;
+    then :;
+else
+    echo -e "\n\n$BSF_INCLUDE" >> ~/.bashrc
 fi
 
 echo "Installation complete! Relogin please"

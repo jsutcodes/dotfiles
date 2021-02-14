@@ -1,10 +1,19 @@
-
+function hello-world {
+  echo "hello-world"
+}
 
 # use this to notify when a command is done
 # Will end when the uer hits a key 
 # ex: run-command-that-takes-a-long-time; flasher
 
-flasher () { while true; do printf \\e[?5h; sleep 0.1; printf \\e[?5l; read -s -n1 -t1 && break; done; }
+function flasher { 
+  while true; do 
+    printf \\e[?5h;
+    sleep 0.1; 
+    printf \\e[?5l; 
+    read -s -n1 -t1 && break; 
+  done; 
+}
 
 # use this to unpack whatever file is present
 function extract {
