@@ -1,3 +1,7 @@
+[user]
+	email = jorsutton92@gmail.com
+	name = Jordan Sutton
+
 [alias]
   ## list all git aliases
   aliases = "!git config -l | grep alias | cut -c 7-"
@@ -16,7 +20,7 @@
   # list assumed files 
   assumed = "!git ls-files -v | grep ^h | cut -c 3-"
   unassumeall = "!git assumed | xargs git update-index --no-assume-unchanged"
-  assumeall = "!git st -s | awk {'print $2'} | xargs git assume"
+  assumeall = "!git status -s | awk {'print $2'} | xargs git assume"
   
   ## shows commit history of the code 
   ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
@@ -31,3 +35,6 @@
   
   ## find a file path in the codebase
   search = "!git ls-files | grep -i"
+  
+  # showalias = "!git-show $*" 
+  #showalias  ="!f(){ echo\"$*\"&&$*};f"
