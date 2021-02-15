@@ -323,7 +323,11 @@ function! WhitespaceView()
     endif
 endfunction
 
-
+" Vim useful cmds
+" :set ff=unix  " this command will change a windows file to work on linux
+" :set ++ff=dos " this command will change a windows file to work on Windows
+" :set relativenumbers " sets commands to numbers based off the cursor
+" :set norelativenumbers " undo the command above 
 
 " Commands: 
 "
