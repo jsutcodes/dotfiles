@@ -31,6 +31,7 @@ export LESS_TERMCAP_us=$(printf '\e[04;36m') # enter underline mode – cyan
 ## for colorful cursor in the terminal 
 # export PS1="\[\033[01;33m\][$USER@$HOSTNAME]\[\033[0;00m\] \[\033[01;35m\]\w\\$\[\033[0;00m\] "
 # PS1
+# This will only show up if entering root using sudo -s, otherwise root's .bashrc will need to be changed 
 if [ $(/usr/bin/whoami) = 'root' ]; then
     PS1="${yellow}\u@\h${white}:${norm}\w${norm}${lred}#${norm} "
 # else

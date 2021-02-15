@@ -14,6 +14,7 @@ ln -sf $DIR/.gitignore_global ~/.gitignore_global
 # source .bashrc file to existing .bashrc if it's not already included
 BSA_INCLUDE=". $DIR/.bash_aliases"
 BSF_INCLUDE=". $DIR/.bash_functions"
+BSP_INCLUDE=". $DIR/.bash_prompt"
 
 if grep -Fq "$BSA_INCLUDE" ~/.bashrc;
     then :;
@@ -27,4 +28,11 @@ else
     echo -e "\n\n$BSF_INCLUDE" >> ~/.bashrc
 fi
 
+if grep -Fq "$BSP_INCLUDE" ~/.bashrc;
+    then :;
+else
+    echo -e "\n\n$BSP_INCLUDE" >> ~/.bashrc
+fi
+
 echo "Installation complete! Relogin please"
+

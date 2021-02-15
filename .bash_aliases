@@ -4,17 +4,13 @@
 
 # if user is not root, pass all commands via sudo #
 if [ $UID -ne 0 ]; then
-    alias reboot='sudo reboot'
-    alias update='sudo apt-get upgrade'
+   alias reboot='sudo reboot'
+   alias update='sudo apt-get upgrade'
 fi
 
 # become root #
-alias root='sudo -i'
-alias su='sudo -i'
-
-## running this command updates the aliases file
-alias updalias='cp -uv ~/.bash_aliases{,.orig} && curl "https://raw.githubusercontent.com/jsutcodes/.bashrc_helper/master/.bash_aliases.sh" > ~/.bash_aliases && source ~/.bash_aliases'
-
+alias root='sudo -s'
+alias su='sudo -s'
 
 ## Colorize the ls output ##
 alias ls='ls --color=auto'
@@ -77,7 +73,7 @@ alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
 alias cpuinfo='lscpu'
  
 ## older system use /proc/cpuinfo ##
-##alias cpuinfo='less /proc/cpuinfo' ##
+# alias cpuinfo='less /proc/cpuinfo' ##
  
 ## get GPU ram on desktop / laptop## 
 alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
@@ -87,7 +83,7 @@ alias wget='wget -c'
 
 ##give a file execute permissions
 alias chx='chmod 755'
-##give a file read and write permissions
+#give a file read and write permissions
 alias chr='chmod 644'
 
 ## get web server headers
@@ -98,3 +94,6 @@ alias filetree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 
 ## show history (d/m/y time )
 export HISTTIMEFORMAT="%d/%m/%y %T " 
+
+# include user's bin in path
+export PATH=$PATH:$HOME/bin
