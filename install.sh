@@ -7,6 +7,7 @@ DIR=$PWD
 ln -sf $DIR/.vimrc ~/.vimrc
 ln -sf $DIR/.gitconfig ~/.gitconfig
 ln -sf $DIR/.gitignore_global ~/.gitignore_global
+ln -sf $DIR/.docker/ ~/.docker
 #ln -sf $DIR/mc-solarized.ini ~/mc-solarized.ini
 # ln -n (--no-dereference) prevents recursive symlinking of directory symlinks
 #ln -nsf $DIR/.bash ~/.bash
@@ -19,19 +20,19 @@ BSP_INCLUDE=". $DIR/.bash_prompt"
 if grep -Fq "$BSA_INCLUDE" ~/.bashrc;
     then :;
 else
-    echo -e "\n\n$BSA_INCLUDE" >> ~/.bashrc
+    echo -e "\n$BSA_INCLUDE" >> ~/.bashrc
 fi
 
 if grep -Fq "$BSF_INCLUDE" ~/.bashrc;
     then :;
 else
-    echo -e "\n\n$BSF_INCLUDE" >> ~/.bashrc
+    echo -e "$BSF_INCLUDE" >> ~/.bashrc
 fi
 
 if grep -Fq "$BSP_INCLUDE" ~/.bashrc;
     then :;
 else
-    echo -e "\n\n$BSP_INCLUDE" >> ~/.bashrc
+    echo -e "$BSP_INCLUDE" >> ~/.bashrc
 fi
 
 echo "Installation complete! Relogin please"
