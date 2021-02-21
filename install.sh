@@ -15,6 +15,7 @@ ln -sf $DIR/.docker/ ~/.docker
 # source .bashrc file to existing .bashrc if it's not already included
 BSA_INCLUDE=". $DIR/.bash_aliases"
 BSF_INCLUDE=". $DIR/.bash_functions"
+BSE_INCLUDE=". $DIR/.bash_exports"
 BSP_INCLUDE=". $DIR/.bash_prompt"
 
 if grep -Fq "$BSA_INCLUDE" ~/.bashrc;
@@ -27,6 +28,12 @@ if grep -Fq "$BSF_INCLUDE" ~/.bashrc;
     then :;
 else
     echo -e "$BSF_INCLUDE" >> ~/.bashrc
+fi
+
+if grep -Fq "$BSE_INCLUDE" ~/.bashrc;
+    then :;
+else
+    echo -e "$BSE_INCLUDE" >> ~/.bashrc
 fi
 
 if grep -Fq "$BSP_INCLUDE" ~/.bashrc;
