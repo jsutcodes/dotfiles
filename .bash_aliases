@@ -91,9 +91,3 @@ alias header='curl -I'
 
 ##quick file tree
 alias filetree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
-
-## show history (d/m/y time )
-export HISTTIMEFORMAT="%d/%m/%y %T " 
-
-# include user's bin in path
-export PATH=$PATH:$HOME/bin
