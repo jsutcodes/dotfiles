@@ -5,6 +5,10 @@
 # if user is not root, pass all commands via sudo #
 if [ $UID -ne 0 ]; then
    alias reboot='sudo reboot'
+
+   # install with apt-get
+   alias apt-get="sudo apt-get"
+   alias updatey="sudo apt-get --yes"
    alias update='sudo apt-get upgrade'
 fi
 
@@ -20,6 +24,16 @@ alias ll='ls -la'
  
 ## Show hidden files ##
 alias l.='ls -d .* --color=auto'
+
+# use calculator with math support
+alias calculator='bc -l'
+alias bc='bc -l'
+
+## search history 
+alias gh='history|grep'
+
+## cd to git repo top directory
+alias cg='cd `git rev-parse --show-toplevel`'
  
  
 ## Colorize the grep command output for ease of use (good for log files)##
@@ -91,3 +105,19 @@ alias header='curl -I'
 
 ##quick file tree
 alias filetree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
+
+## replace mac with your actual server mac address #
+#alias wakeupnas01='/usr/bin/wakeonlan 00:11:32:11:15:FC'
+#alias wakeupnas02='/usr/bin/wakeonlan 00:11:32:11:15:FD'
+#alias wakeupnas03='/usr/bin/wakeonlan 00:11:32:11:15:FE'
+
+
+## shortcut  for iptables and pass it via sudo#
+alias ipt='sudo /sbin/iptables'
+ 
+# display all rules #
+alias iptlist='sudo /sbin/iptables -L -n -v --line-numbers'
+alias iptlistin='sudo /sbin/iptables -L INPUT -n -v --line-numbers'
+alias iptlistout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers'
+alias iptlistfw='sudo /sbin/iptables -L FORWARD -n -v --line-numbers'
+alias firewall=iptlist
