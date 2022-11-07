@@ -74,12 +74,12 @@ fi
  
  }
  
- function findreplace {
+# function findreplace {
    # WIP - need to test this and add  in safe version?
    # finds $1 and replaces any instance of it globally in files listed
    #grep -RiIl $1  | xargs sed -i "s/$1/$2/g" 
 
- }
+# }
  
  function uppercase {
   str=$@
